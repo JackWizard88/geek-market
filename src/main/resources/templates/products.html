@@ -42,28 +42,19 @@
         </table>
     </div>
 
-    <nav aria-label="Pagination" th:if="${products.totalPages > 1}">
-        <ul class="pagination justify-content-center">
-            <li class="page-item" th:classappend="${products.number eq 0} ? 'disabled'">
-                <a class="page-link"
-                   th:href="@{?p={id}(id=${products.number lt 2 ? 1 : products.number}, min=${#httpServletRequest.getParameter('min')}, max=${#httpServletRequest.getParameter('max')})}"
-                   aria-label="Previous">
-                    <span aria-hidden="true">&laquo;</span>
-                </a>
-            </li>
-            <li class="page-item" th:classappend="${i eq products.number + 1} ? 'active'"
-                th:each="i : ${#numbers.sequence( 1, products.totalPages, 1)}">
-                <a class="page-link" th:href="@{?p={id}(id=${i}, min=${#httpServletRequest.getParameter('min')}, max=${#httpServletRequest.getParameter('max')})}" th:text="${i}"></a>
-            </li>
-            <li class="page-item" th:classappend="${products.number + 1 eq products.totalPages} ? 'disabled'">
-                <a class="page-link"
-                   th:href="@{?p={id}(id=${products.number + 2}, min=${#httpServletRequest.getParameter('min')}, max=${#httpServletRequest.getParameter('max')})}"
-                   aria-label="Next">
-                    <span aria-hidden="true">&raquo;</span>
-                </a>
-            </li>
-        </ul>
-    </nav>
+    <span th:if="${products.hasPrevious()}">
+        <a th:href="@{/products(p=${products.number})}">Previous</a>
+    </span>
+    <th:block th:each="i: ${#numbers.sequence(1, products.totalPages)}">
+        <span th:if="${products.number == i - 1}" class="selected">[[${i}]]</span>
+        <span th:unless="${products.number == i - 1}">
+             <a th:href="@{/products(p=${i})}">[[${i}]]</a>
+        </span>
+    </th:block>
+    <span th:if="${products.hasNext()}">
+        <a th:href="@{/products(p=${products.number + 2})}">Next</a>
+    </span>
+
 </div>
 
 </body>
