@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="utf-8"/>
+
+    <title>Каталог товаров</title>
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
+</head>
+
+<body>
+
+<div class="container">
+    <div th:replace="~{navigation :: navigation(Products)}" />
+    <h1>Каталог товаров</h1>
+
+    <div>
+        <form method="get" th:action="@{/products/filter}">
+            <input type="number" min="0" name="min" th:value="${#httpServletRequest.getParameter('min')}" placeholder="цена от">
+            <input type="number" min="0" name="max" th:value="${#httpServletRequest.getParameter('max')}" placeholder="цена до">
+            <input class="btn btn-warning" type="submit" value="Фильтр">
+            <a class="btn btn-warning" th:href="@{/products}">Сбросить</a>
+        </form></p>
+    </div>
+    <div style="min-height: 300px;">
+        <table class="table table-hover">
+            <thead class="thead-dark">
+            <tr>
+                <th>Наименование</th>
+                <th>Цена, руб.</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="p : ${products}">
+                <td th:text="${p.title}"/>
+                <td th:text="${p.price}"/>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <nav aria-label="Pagination" th:if="${products.totalPages > 1}">
+        <ul class="pagination justify-content-center">
+            <li class="page-item" th:classappend="${products.number eq 0} ? 'disabled'">
+                <a class="page-link"
+                   th:href="@{?p={id}(id=${products.number lt 2 ? 1 : products.number}, min=${#httpServletRequest.getParameter('min')}, max=${#httpServletRequest.getParameter('max')})}"
+                   aria-label="Previous">
+                    <span aria-hidden="true">&laquo;</span>
+                </a>
+            </li>
+            <li class="page-item" th:classappend="${i eq products.number + 1} ? 'active'"
+                th:each="i : ${#numbers.sequence( 1, products.totalPages, 1)}">
+                <a class="page-link" th:href="@{?p={id}(id=${i}, min=${#httpServletRequest.getParameter('min')}, max=${#httpServletRequest.getParameter('max')})}" th:text="${i}"></a>
+            </li>
+            <li class="page-item" th:classappend="${products.number + 1 eq products.totalPages} ? 'disabled'">
+                <a class="page-link"
+                   th:href="@{?p={id}(id=${products.number + 2}, min=${#httpServletRequest.getParameter('min')}, max=${#httpServletRequest.getParameter('max')})}"
+                   aria-label="Next">
+                    <span aria-hidden="true">&raquo;</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</div>
+
+</body>
+</html>
