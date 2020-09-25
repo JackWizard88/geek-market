@@ -6,7 +6,7 @@ create table customers (
 create table products (
     id                      bigint primary key AUTO_INCREMENT,
     title                   varchar(255),
-    price                   int
+    price                   decimal(10,2)
 );
 
 create table orders (
