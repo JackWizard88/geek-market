@@ -63,7 +63,7 @@
                    th:href="@{'/products?p=' + ${products.number} + ${filterDefinition}}" th:text="${products.number}"></a>
             </li>
 
-            <li class="page-item">
+            <li class="page-item disabled">
             <a class="page-link"
                th:href="@{'/products?p=' + ${products.number + 1} + ${filterDefinition}}" th:text="${products.number + 1}"></a>
             </li>
