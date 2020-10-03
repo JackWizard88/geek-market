@@ -26,10 +26,7 @@ public class ProductService {
         return productRepository.findAll(spec, PageRequest.of(page, size));
     }
 
-    public void saveEditedProductInDB(Long id, String title, Double price) {
-        Product product = productRepository.findById(id).get();
-        product.setPrice(price);
-        product.setTitle(title);
+    public void saveEditedProductInDB(Product product) {
         productRepository.save(product);
     }
 }

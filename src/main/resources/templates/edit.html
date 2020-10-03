@@ -18,7 +18,7 @@
     <h3>Редактирование товара</h3>
     <br>
 
-    <form method="get" th:action="@{/products/edit}">
+    <form method="post" th:action="@{/products/edit}">
         <table class="table table-hover">
             <thead class="thead-dark">
                 <tr>
@@ -26,6 +26,7 @@
                     <th>Наименование</th>
                     <th>Цена, руб.</th>
                     <th style="width: 150px"></th>
+                    <th style="width: 100px"></th>
                     <th style="width: 100px"></th>
                 </tr>
             </thead>
@@ -35,6 +36,7 @@
             <th><input type="number" step="0.01" min="0" name="price" th:value="${product.price}" placeholder="цена"></th>
             <th><input class="btn btn-warning" type="submit" value="Сохранить"></th>
             <th><a class="btn btn-warning" th:href="@{/products}">Назад</a></th>
+            <td><a class="btn btn-outline-light" th:href="@{'/products/delete/' + ${product.id}}">Удалить</a></td>
             </tbody>
         </table>
     </form></p>

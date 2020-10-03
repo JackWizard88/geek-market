@@ -32,7 +32,7 @@
             <tr>
                 <th>Наименование</th>
                 <th>Цена, руб.</th>
-                <th style="width: 150px"></th>
+                <th style="width: 100px"></th>
                 <th style="width: 100px"></th>
             </tr>
             </thead>
@@ -40,8 +40,8 @@
             <tr th:each="p : ${products}">
                 <td th:text="${p.title}"/>
                 <td th:text="${p.price}"/>
-                <td><a class="btn btn-danger" th:href="@{'/products/edit/' + ${p.id}}">Редактировать</a></td>
-                <td><a class="btn btn-danger" th:href="@{'/products/delete/' + ${p.id} + '?' + ${filterDefinition}}">Удалить</a></td>
+                <td><a class="btn btn-outline-light" th:href="@{'/products/edit/' + ${p.id}}">Редактировать</a></td>
+                <td><a class="btn btn-danger" th:href="@{'/cart/add/' + ${p.id}}">В корзину</a></td>
             </tr>
             </tbody>
         </table>

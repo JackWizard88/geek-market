@@ -2,7 +2,6 @@ package com.geekbrains.spring.market.geekmarket.controllers;
 
 import com.geekbrains.spring.market.geekmarket.entities.Product;
 import com.geekbrains.spring.market.geekmarket.exceptions.ResourceNotFoundException;
-import com.geekbrains.spring.market.geekmarket.repositories.ProductRepository;
 import com.geekbrains.spring.market.geekmarket.services.ProductService;
 import com.geekbrains.spring.market.geekmarket.utils.ProductFilter;
 import lombok.AllArgsConstructor;
@@ -36,7 +35,7 @@ public class ProductController {
     @GetMapping("/{id}")
     @ResponseBody
     public Product getOneProductById(@PathVariable Long id) {
-        return productService.findById(id).orElseThrow(() -> new ResourceNotFoundException("Product with id: " + id + " doesn't exists"));
+        return productService.findById(id).orElseThrow(() -> new ResourceNotFoundException("Product with id: " + id + " doesn't exist"));
     }
 
     @GetMapping("/delete/{id}")
@@ -50,17 +49,14 @@ public class ProductController {
 
     @GetMapping("/edit/{id}")
     public String editOneProductById(Model model, @PathVariable Long id) {
-        Product product = productService.findById(id).get();
+        Product product = productService.findById(id).orElseThrow(() -> new ResourceNotFoundException("Product with id: " + id + " doesn't exist"));
         model.addAttribute("product", product);
         return "/edit";
     }
 
-    @GetMapping("/edit")
-    public String editOneProduct(@RequestParam Long id,
-                                 @RequestParam String title,
-                                 @RequestParam Double price
-    ) {
-        productService.saveEditedProductInDB(id, title, price);
+    @PostMapping("/edit")
+    public String editOneProduct(@ModelAttribute Product product) {
+        productService.saveEditedProductInDB(product);
         return "redirect:/products";
     }
 }
