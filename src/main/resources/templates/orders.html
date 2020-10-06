@@ -16,19 +16,24 @@
 <div class="container">
     <div th:replace="~{navigation :: navigation(Orders)}" />
     <h1>Заказы</h1>
-    <table class="table table-hover">
+    <span th:if="${orders.isEmpty()}">Заказы отсутствуют</span>
+    <table th:if="${!orders.isEmpty()}" class="table table-hover">
         <thead class="thead-dark">
         <tr>
             <th>Клиент</th>
-            <th>Товар</th>
-            <th>Цена</th>
+            <th>Адрес</th>
+            <th>Телефон</th>
+            <th>Дата заказа</th>
+            <th></th>
         </tr>
         </thead>
         <tbody>
         <tr th:each="o : ${orders}">
-            <td th:text="${o.customer.name}"/>
-            <td th:text="${o.product.title}"/>
-            <td th:text="${o.dealPrice}"/>
+            <td th:text="${o.name}"/>
+            <td th:text="${o.address}"/>
+            <td th:text="${o.phoneNumber}"/>
+            <td th:text="${o.createDate}"/>
+            <td><a class="btn btn-secondary" th:href="@{'/orders/order/' + ${o.id}}">Подробнее</a></td>
         </tr>
         </tbody>
     </table>

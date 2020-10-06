@@ -1,50 +1,62 @@
 package com.geekbrains.spring.market.geekmarket.controllers;
 
+import com.geekbrains.spring.market.geekmarket.entities.Product;
+import com.geekbrains.spring.market.geekmarket.exceptions.ResourceNotFoundException;
 import com.geekbrains.spring.market.geekmarket.services.ProductService;
+import com.geekbrains.spring.market.geekmarket.utils.ProductFilter;
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import java.util.Map;
 
 @Controller
 @RequestMapping("/products")
 @AllArgsConstructor
 public class ProductController {
-
-    private final int PAGE_SIZE = 5;
     private ProductService productService;
 
     @GetMapping
-    public String showAllProducts(Model model, @RequestParam(required = false, defaultValue = "1", name = "p") Integer page, @RequestParam(required = false) Double min, @RequestParam(required = false) Double max) {
+    public String showAllProducts(Model model,
+                                  @RequestParam(defaultValue = "1", name = "p") Integer page,
+                                  @RequestParam Map<String, String> params
+    ) {
         if (page < 1) {
             page = 1;
         }
-
-        if (min != null & max == null) {
-            model.addAttribute("products", productService.getMaxPrice(page - 1, PAGE_SIZE, min));
-        } else if (min == null & max != null) {
-            model.addAttribute("products", productService.getMinPrice(page - 1, PAGE_SIZE, max));
-        } else if (min != null & max != null) {
-            model.addAttribute("products", productService.getMinAndMaxPrice(page - 1, PAGE_SIZE, min, max));
-        } else {
-            model.addAttribute("products", productService.findAll(page - 1, PAGE_SIZE));
-        }
+        ProductFilter productFilter = new ProductFilter(params);
+        Page<Product> products = productService.findAll(productFilter.getSpec(), page - 1, 5);
+        model.addAttribute("products", products);
+        model.addAttribute("filterDefinition", productFilter.getFilterDefinition());
         return "products";
     }
 
-    @GetMapping("/filter")
-    public String filterProductByPrice(@RequestParam Double min, @RequestParam Double max) {
-
-        if (min != null & max == null) {
-            return "redirect:/products?min="+min;
-        } else if (min == null & max != null) {
-            return "redirect:/products?max="+max;
-        } else if (min != null & max != null) {
-            if (min > max) min = max;
-            return "redirect:/products?min="+min+"&max="+max;
-        } else {
-            return "redirect:/products";
-        }
+    @GetMapping("/{id}")
+    @ResponseBody
+    public Product getOneProductById(@PathVariable Long id) {
+        return productService.findById(id).orElseThrow(() -> new ResourceNotFoundException("Product with id: " + id + " doesn't exist"));
     }
 
+    @GetMapping("/delete/{id}")
+    public String deleteOneProductById(@PathVariable Long id,
+                                       @RequestParam(defaultValue = "1", name = "p") Integer page,
+                                       @RequestParam Map<String, String> params) {
+        ProductFilter productFilter = new ProductFilter(params);
+        productService.deleteById(id);
+        return "redirect:/products?p=" + page + productFilter.getFilterDefinition();
+    }
+
+    @GetMapping("/edit/{id}")
+    public String editOneProductById(Model model, @PathVariable Long id) {
+        Product product = productService.findById(id).orElseThrow(() -> new ResourceNotFoundException("Product with id: " + id + " doesn't exist"));
+        model.addAttribute("product", product);
+        return "/edit";
+    }
+
+    @PostMapping("/edit")
+    public String editOneProduct(@ModelAttribute Product product) {
+        productService.saveEditedProductInDB(product);
+        return "redirect:/products";
+    }
 }
