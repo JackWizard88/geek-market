@@ -41,7 +41,7 @@ public class OrderController {
         order.setItems(cart.getItems());
         order.setPrice(cart.getPrice());
         orderService.createorSaveOrder(order);
-        cart.newCart();     //тут по идее тоже должен быть человеческий метод для решение такой задачи
+        cart.newCart();
         return "redirect:/orders";
     }
 }

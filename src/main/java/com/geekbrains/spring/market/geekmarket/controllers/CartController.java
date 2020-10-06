@@ -1,14 +1,11 @@
 package com.geekbrains.spring.market.geekmarket.controllers;
 
-import com.geekbrains.spring.market.geekmarket.entities.Order;
 import com.geekbrains.spring.market.geekmarket.entities.Product;
 import com.geekbrains.spring.market.geekmarket.exceptions.ResourceNotFoundException;
-import com.geekbrains.spring.market.geekmarket.services.OrderService;
 import com.geekbrains.spring.market.geekmarket.services.ProductService;
 import com.geekbrains.spring.market.geekmarket.utils.Cart;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
