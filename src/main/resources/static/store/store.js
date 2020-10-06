@@ -11,10 +11,12 @@ angular.module('app').controller('storeController', function ($scope, $http) {
 
 
     $scope.applyFilter = function () {
+        $scope.pageNumber = $scope.pageNumber > 0 ? $scope.pageNumber - 1 : 0;
         $http({
             url: contextPath + '/api/v1/products',
             method: "GET",
             params: {
+                    p : $scope.pageNumber,
                     title: $scope.filter.title,
                     min_price: $scope.filter.min_price,
                     max_price: $scope.filter.max_price

@@ -16,12 +16,12 @@ public class RestProductController {
     private ProductService productService;
 
     @GetMapping
-    public List<Product> getAllProducts(@RequestParam(defaultValue = "1", name = "p") Integer page,
+    public List<Product> getAllProducts(@RequestParam(defaultValue = "0", name = "p") Integer page,
                                         @RequestParam Map<String, String> params
     ) {
         ProductFilter productFilter = new ProductFilter(params);
         System.out.println(productFilter.getFilterDefinition());
-        return productService.findAll(productFilter.getSpec(), page - 1, 5).getContent();
+        return productService.findAll(productFilter.getSpec(), page, 5).getContent();
     }
 
     @GetMapping("/{id}")
