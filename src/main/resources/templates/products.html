@@ -54,27 +54,9 @@
                    th:href="@{'/products?p=' + ${products.previousOrFirstPageable().getPageNumber() + 1} + ${filterDefinition}}">Назад</a>
             </li>
 
-            <li class="page-item" th:if="${products.number > 1}">
-                <a class="page-link"
-                   th:href="@{'/products?p=' + ${products.number - 1} + ${filterDefinition}}" th:text="${products.number - 1}"></a>
-            </li>
-            <li class="page-item" th:if="${products.number > 0}">
-                <a class="page-link"
-                   th:href="@{'/products?p=' + ${products.number} + ${filterDefinition}}" th:text="${products.number}"></a>
-            </li>
-
-            <li class="page-item disabled">
-            <a class="page-link"
-               th:href="@{'/products?p=' + ${products.number + 1} + ${filterDefinition}}" th:text="${products.number + 1}"></a>
-            </li>
-
-            <li class="page-item" th:if="${(products.number + 2) <= products.getTotalPages()}">
-                <a class="page-link"
-                   th:href="@{'/products?p=' + ${products.number + 2} + ${filterDefinition}}" th:text="${products.number + 2}"></a>
-            </li>
-            <li class="page-item" th:if="${(products.number + 3) <= products.getTotalPages()}">
-                <a class="page-link"
-                   th:href="@{'/products?p=' + ${products.number + 3} + ${filterDefinition}}" th:text="${products.number + 3}"></a>
+            <li class="page-item" th:each="i : ${#numbers.sequence( products.number - 1, products.number + 3)}">
+                <a class="page-link" th:if="${i > 0 and i < (products.getTotalPages()+1)}"
+                   th:href="@{'/products?p=' + ${i} + ${filterDefinition}}" th:text="${i}"></a>
             </li>
 
             <li class="page-item"  th:classappend="${products.isLast() ? 'disabled' : ''}">
