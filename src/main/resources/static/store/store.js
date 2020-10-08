@@ -1,35 +1,31 @@
 angular.module('app').controller('storeController', function ($scope, $http) {
     const contextPath = 'http://localhost:8189/market';
 
-    $scope.fillTable = function () {
-        console.log('fill');
-        $http.get(contextPath + '/api/v1/products')
-            .then(function (response) {
-                $scope.Products = response.data;
-            });
-    };
+    $scope.fillTable = function (pageIndex = 1) {
+            $http({
+                url: contextPath + '/api/v1/products',
+                method: 'GET',
+                params: {
+                    title: $scope.filter ? $scope.filter.title : null,
+                    min_price: $scope.filter ? $scope.filter.min_price : null,
+                    max_price: $scope.filter ? $scope.filter.max_price : null,
+                    p: pageIndex
+                }
+            })
+                .then(function (response) {
+                    $scope.ProductsPage = response.data;
+                    $scope.PaginationArray = $scope.generatePagesInd(pageIndex - 2, pageIndex + 2);
+                });
+        };
 
-
-    $scope.applyFilter = function () {
-        $scope.pageNumber = $scope.pageNumber > 0 ? $scope.pageNumber - 1 : 0;
-        $http({
-            url: contextPath + '/api/v1/products',
-            method: "GET",
-            params: {
-                    p : $scope.pageNumber,
-                    title: $scope.filter.title,
-                    min_price: $scope.filter.min_price,
-                    max_price: $scope.filter.max_price
-                    }
-        }).then(function (response) {
-            $scope.Products = response.data;
-        });
-    }
-
-    $scope.clearFilter = function () {
-        $scope.filter = null;
-        $scope.fillTable();
-    }
+        $scope.generatePagesInd = function(startPage, endPage) {
+            let arr = [];
+            for (let i = startPage; i < endPage + 1; i++) {
+                if (i > 0 && i <= $scope.ProductsPage.totalPages)
+                arr.push(i);
+            }
+            return arr;
+        }
 
     $scope.submitCreateNewProduct = function () {
         $http.post(contextPath + '/api/v1/products', $scope.newProduct)

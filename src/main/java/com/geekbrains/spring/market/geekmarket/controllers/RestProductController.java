@@ -4,9 +4,10 @@ import com.geekbrains.spring.market.geekmarket.entities.Product;
 import com.geekbrains.spring.market.geekmarket.services.ProductService;
 import com.geekbrains.spring.market.geekmarket.utils.ProductFilter;
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
+
 import java.util.Map;
 
 @RestController
@@ -16,12 +17,15 @@ public class RestProductController {
     private ProductService productService;
 
     @GetMapping
-    public List<Product> getAllProducts(@RequestParam(defaultValue = "0", name = "p") Integer page,
+    public Page<Product> getAllProducts(@RequestParam(defaultValue = "1", name = "p") Integer page,
                                         @RequestParam Map<String, String> params
     ) {
+        if (page < 1) {
+            page = 1;
+        }
         ProductFilter productFilter = new ProductFilter(params);
-        System.out.println(productFilter.getFilterDefinition());
-        return productService.findAll(productFilter.getSpec(), page, 5).getContent();
+        Page<Product> content = productService.findAll(productFilter.getSpec(), page - 1, 5);
+        return content;
     }
 
     @GetMapping("/{id}")
