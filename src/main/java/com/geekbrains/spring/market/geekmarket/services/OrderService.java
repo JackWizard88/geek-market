@@ -2,6 +2,7 @@ package com.geekbrains.spring.market.geekmarket.services;
 
 import com.geekbrains.spring.market.geekmarket.entities.Order;
 import com.geekbrains.spring.market.geekmarket.entities.OrderItem;
+import com.geekbrains.spring.market.geekmarket.entities.User;
 import com.geekbrains.spring.market.geekmarket.repositories.OrderRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -18,8 +19,9 @@ public class OrderService {
         return orderRepository.findAll();
     }
 
+    public Order findByUser(User user) {return orderRepository.findByUser(user); }
+
     public void createorSaveOrder(Order order) {
-        //костыль?
         for (OrderItem o : order.getItems()) {
             o.setOrder(order);
         }

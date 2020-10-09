@@ -1,7 +1,6 @@
 package com.geekbrains.spring.market.geekmarket.entities;
 
 import lombok.Data;
-
 import javax.persistence.*;
 
 @Entity

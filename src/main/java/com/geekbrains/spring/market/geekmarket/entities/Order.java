@@ -18,6 +18,10 @@ public class Order {
     @Column(name = "id")
     private Long id;
 
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
+
     @CreationTimestamp
     @Column(name = "created")
     private Date createDate;
