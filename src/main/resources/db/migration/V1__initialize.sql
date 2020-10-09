@@ -1,7 +1,32 @@
-create table customers (
-    id                      bigint primary key AUTO_INCREMENT,
-    name                    varchar(255) not null
+create table users (
+  id                    bigint primary key AUTO_INCREMENT,
+  username              varchar(30) not null,
+  password              varchar(80) not null,
+  email                 varchar(50) unique
 );
+
+create table roles (
+  id                    bigint primary key AUTO_INCREMENT,
+  name                  varchar(50) not null
+);
+
+CREATE TABLE users_roles (
+  user_id               bigint not null,
+  role_id               bigint not null,
+  primary key (user_id, role_id),
+  foreign key (user_id) references users (id),
+  foreign key (role_id) references roles (id)
+);
+
+insert into roles (name)
+values
+('ROLE_USER'), ('ROLE_ADMIN'), ('SOMETHING');
+
+insert into users (username, password, email)
+values
+('user', '$2a$04$Fx/SX9.BAvtPlMyIIqqFx.hLY2Xp8nnhpzvEEVINvVpwIPbA3v/.i', 'user@gmail.com');
+
+insert into users_roles (user_id, role_id) values (1, 1), (1, 2);
 
 create table products (
     id                      bigint primary key AUTO_INCREMENT,
@@ -11,6 +36,7 @@ create table products (
 
 create table orders (
     id                      bigint primary key AUTO_INCREMENT,
+    user_id                 bigint references users(id),
     created                 datetime,
     name                    varchar(255),
     address                 varchar(255),
@@ -26,15 +52,6 @@ create table order_items (
     price_per_product       decimal(10,2),
     quantity                int
 );
-
-insert into customers (name)
-values
-('John'),
-('Tom'),
-('Billy'),
-('Edd'),
-('Bob'),
-('Jack');
 
 insert into products (title, price)
 values
