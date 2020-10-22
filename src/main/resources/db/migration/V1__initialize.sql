@@ -20,18 +20,24 @@ CREATE TABLE users_roles (
 
 insert into roles (name)
 values
-('ROLE_USER'), ('ROLE_ADMIN'), ('SOMETHING');
+('ROLE_USER'), ('ROLE_ADMIN');
 
 insert into users (username, password, email)
 values
 ('user', '$2a$04$Fx/SX9.BAvtPlMyIIqqFx.hLY2Xp8nnhpzvEEVINvVpwIPbA3v/.i', 'user@gmail.com'),
-('user1', '$2y$12$vRywsljiTPRvi.OdemJlg.mkQKoa/uqUEbDJ93ACB9UF58mdBWXIG', 'user1@gmail.com');
+('user1', '$2a$04$Fx/SX9.BAvtPlMyIIqqFx.hLY2Xp8nnhpzvEEVINvVpwIPbA3v/.i', 'user1@gmail.com');
 
 insert into users_roles (user_id, role_id) values (1, 1), (1, 2), (2, 1);
+
+create table categories (
+    id                      bigint primary key AUTO_INCREMENT,
+    title                   varchar(255)
+);
 
 create table products (
     id                      bigint primary key AUTO_INCREMENT,
     title                   varchar(255),
+    category_id             bigint references categories(id),
     price                   decimal(10,2)
 );
 
@@ -54,22 +60,36 @@ create table order_items (
     quantity                int
 );
 
-insert into products (title, price)
+insert into categories (title)
 values
-('Bread', 25.50),
-('Sausages', 225.50),
-('Yogurt', 85.50),
-('Cream', 250.90),
-('Carrot', 35.00),
-('Onion', 45.50),
-('Garlic', 25.50),
-('Cabbage', 30.90),
-('Butter', 120.99),
-('Coffee', 450.90),
-('Cheese', 650),
-('Tea', 250.80),
-('Milk', 79.90),
-('Tomatoes', 150.99),
-('Cucumbers', 89.90),
-('Potatoes', 49.00),
-('Eggs', 130.49);
+('Молочные продукты'),
+('Бакалея'),
+('Мясо и мясные продукты'),
+('Фрукты'),
+('Овощи'),
+('Рыба и морепродукты'),
+('Напитки'),
+('Яйца');
+
+insert into products (title, price, category_id)
+values
+('Хлеб', 25.50, 2),
+('Сосиски', 225.50, 3),
+('Йогурт', 85.50, 1),
+('Сливки', 250.90, 1),
+('Морковь', 35.00, 5),
+('Лук', 45.50, 5),
+('Чеснок', 25.50, 5),
+('Кабачок', 30.90, 5),
+('Масло', 120.99, 1),
+('Коффе', 450.90, 7),
+('Сыр', 650, 1),
+('Чай', 250.80, 7),
+('Молоко', 79.90, 1),
+('Томаты', 150.99, 5),
+('Огурцы', 89.90, 5),
+('картофель', 49.00, 5),
+('Яйца', 130.49, 8),
+('Персики', 130.49, 4),
+('Бананы', 130.49, 4),
+('Яблоки', 130.49, 4);

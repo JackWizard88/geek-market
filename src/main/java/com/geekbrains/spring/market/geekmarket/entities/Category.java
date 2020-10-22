@@ -6,10 +6,10 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "products")
+@Table(name = "categories")
 @Data
 @NoArgsConstructor
-public class Product {
+public class Category {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
@@ -17,11 +17,4 @@ public class Product {
 
     @Column(name = "title")
     private String title;
-
-    @ManyToOne (optional=false, cascade=CascadeType.ALL)
-    @JoinColumn (name="category_id")
-    private Category category;
-
-    @Column(name = "price")
-    private double price;
 }
