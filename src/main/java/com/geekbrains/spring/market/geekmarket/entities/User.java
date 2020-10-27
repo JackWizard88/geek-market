@@ -3,7 +3,9 @@ package com.geekbrains.spring.market.geekmarket.entities;
 import lombok.Data;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 @Entity
 @Data
@@ -28,4 +30,17 @@ public class User {
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "role_id"))
     private Collection<Role> roles;
+
+    public User() {
+    }
+
+    public User(String login, String pass, String email, List<Role> roleList) {
+        this.username = login;
+        this.password = pass;
+        this.email = email;
+        this.roles = new ArrayList<>();
+        for (Role role : roleList) {
+            roles.add(role);
+        }
+    }
 }

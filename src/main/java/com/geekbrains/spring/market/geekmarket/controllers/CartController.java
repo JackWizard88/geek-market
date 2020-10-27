@@ -6,12 +6,14 @@ import com.geekbrains.spring.market.geekmarket.services.ProductService;
 import com.geekbrains.spring.market.geekmarket.utils.Cart;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.security.Principal;
 
 @Controller
 @RequestMapping("/cart")
@@ -21,7 +23,8 @@ public class CartController {
     private Cart cart;
 
     @GetMapping
-    public String showCartPage(HttpSession session) {
+    public String showCartPage(Principal principal, Model model, HttpSession session) {
+        model.addAttribute("principal", principal);
         return "cart";
     }
 

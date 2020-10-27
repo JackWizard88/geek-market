@@ -10,7 +10,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
-@EnableWebSecurity(debug = true)
+@EnableWebSecurity //(debug = true)
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private UserService userService;
 
@@ -23,9 +23,19 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
                 .antMatchers("/orders/**").authenticated()
+                .antMatchers("/cart/**").authenticated()
+                .antMatchers("/products/edit/**").hasAnyAuthority("ROLE_ADMIN")
                 .anyRequest().permitAll()
                 .and()
-                .formLogin();
+                .formLogin()
+                    .loginPage("/login")
+                    .loginProcessingUrl("/login")
+                    .defaultSuccessUrl("/products", true)
+                .and()
+                .logout()
+                    .logoutUrl("/perform_logout")
+                    .logoutSuccessUrl("/products");
+
     }
 
     @Bean
