@@ -11,6 +11,7 @@
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.0/angular.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.0/angular-route.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/ngStorage/0.3.11/ngStorage.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
 
     <link rel="stylesheet" type="text/css" href="style.css">
 </head>
@@ -20,9 +21,11 @@
 <div class="container" style="padding-bottom: 20px; background-color: gray;">
     <h1>Магазин</h1>
     <a class="btn btn-outline-warning" href="#!/">Главная</a>
+    <a class="btn btn-outline-warning" href="#!/auth">Войти</a>
     <a class="btn btn-outline-warning" href="#!/store">Магазин</a>
     <a class="btn btn-outline-warning" href="#!/admin">Админка</a>
     <a class="btn btn-outline-warning" href="#!/cart">Корзина</a>
+    <a class="btn btn-outline-warning" href="#!/orders">Заказы</a>
 </div>
 
 <div class="container">
@@ -30,9 +33,13 @@
     <ng-view></ng-view>
 
     <script src="index.js"></script>
+    <script src="auth/auth.js"></script>
     <script src="store/store.js"></script>
     <script src="admin/admin.js"></script>
     <script src="cart/cart.js"></script>
+    <script src="orders/orders.js"></script>
+    <script src="orderConfirmation/orderConfirmation.js"></script>
+    <script src="registration/registration.js"></script>
 </div>
 </body>
 </html>

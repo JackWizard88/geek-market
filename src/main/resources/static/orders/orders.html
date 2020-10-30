@@ -1,0 +1,25 @@
+<div>
+    <h3>Заказы</h3>
+
+        <div class="main_box">
+            <table class="table table-hover" cellpadding="0" cellspacing="0">
+                <tr>
+                    <td>Номер заказа</td>
+                    <td>Стоимость</td>
+                    <td>Адрес доставки</td>
+                    <td>Дата</td>
+                </tr>
+                <tbody>
+
+                <tr ng-repeat="o in OrdersList">
+                    <td>{{o.id}}</td>
+                    <td>{{o.price}}</td>
+                    <td>{{o.address}}</td>
+                    <td>{{o.createDate}}</td>
+                </tr>
+                </tbody>
+            </table>
+
+        </div>
+    </div>
+</div>

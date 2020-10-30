@@ -19,7 +19,7 @@ public class OrderService {
         return orderRepository.findAll();
     }
 
-    public Order findByUser(User user) {return orderRepository.findByUser(user); }
+    public List<Order> findByUser(User user) {return orderRepository.findOrdersByUserEquals(user); }
 
     public void createorSaveOrder(Order order) {
         for (OrderItem o : order.getItems()) {

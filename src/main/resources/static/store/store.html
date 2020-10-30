@@ -14,11 +14,9 @@
                     <input type="number" min="0" step="0.01" ng-model="filter.max_price" placeholder="цена до">
                 </div>
 
-                <select multiple class="form-control filter_box" style="height: 250px;" ng-model="filter.category">
-                    <option ng-repeat="category in Categories" ng-value="{{category}}">{{category.title}}</option>
+                <select class="form-control filter_box" style="width: 180px;" ng-model="filter.category">
+                    <option ng-repeat="category in Categories" ng-value="{{category.id}}">{{category.title}}</option>
                 </select>
-
-<!--                <p ng-repeat="category in Categories"><input type="checkbox" ng-value="{{category}}" ng-model="filter.category" ng-checked="true">{{category.title}}</p>-->
 
                 <input class="btn btn-warning" type="submit" value="Фильтр">
                 <a class="btn btn-warning" ng-click="clearFilter()">Сбросить</a>

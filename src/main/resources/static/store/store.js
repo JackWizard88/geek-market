@@ -5,7 +5,7 @@ angular.module('app').controller('storeController', function ($scope, $http) {
 
     getCategories = function() {
         $http({
-            url: contextPath + '/api/v1/products/categories',
+            url: contextPath + '/api/v1/categories',
             method: 'GET'
         })
         .then(function (response) {
@@ -22,7 +22,7 @@ angular.module('app').controller('storeController', function ($scope, $http) {
                     title: $scope.filter ? $scope.filter.title : null,
                     min_price: $scope.filter ? $scope.filter.min_price : null,
                     max_price: $scope.filter ? $scope.filter.max_price : null,
-                    category: $scope.filter ? [$scope.filter.category] : null,
+                    category: $scope.filter ? $scope.filter.category : null,
                     p: pageIndex
                 }
             })
