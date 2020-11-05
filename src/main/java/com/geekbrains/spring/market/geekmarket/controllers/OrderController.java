@@ -1,5 +1,7 @@
 package com.geekbrains.spring.market.geekmarket.controllers;
 
+import com.geekbrains.spring.market.geekmarket.dto.OrderDto;
+import com.geekbrains.spring.market.geekmarket.dto.OrderItemDto;
 import com.geekbrains.spring.market.geekmarket.entities.Order;
 import com.geekbrains.spring.market.geekmarket.entities.User;
 import com.geekbrains.spring.market.geekmarket.exceptions.ResourceNotFoundException;
@@ -12,9 +14,11 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
+import java.util.List;
+import java.util.stream.Collectors;
 
-@Controller
-@RequestMapping("/orders")
+@RestController
+@RequestMapping("/api/v1/orders")
 @AllArgsConstructor
 public class OrderController {
     private UserService userService;
@@ -22,28 +26,17 @@ public class OrderController {
     private Cart cart;
 
     @GetMapping
-    public String getOrderListForUser(Principal principal, Model model) {
+    public List<OrderDto> getOrderListForUser(Principal principal) {
         User user = userService.findByUsername(principal.getName());
-        model.addAttribute("orders", orderService.findByUser(user));
-        model.addAttribute("principal", principal);
-        return "orders";
+        return orderService.findByUser(user).stream().map(OrderDto::new).collect(Collectors.toList());
     }
 
-    @GetMapping("/order/{id}")
-    public String showPlacedOrder(Principal principal, Model model, @PathVariable Long id) {
-        Order order = orderService.findById(id).orElseThrow(() -> new ResourceNotFoundException("Order doesn't exist"));;
-        model.addAttribute("order", order);
-        model.addAttribute("principal", principal);
-        return "/order_details";
-    }
-
-    @PostMapping("/order")
-    public String placeOrder(Principal principal, Model model,
+    @PostMapping("/place")
+    public void placeOrder(Principal principal,
                              @RequestParam String name,
                              @RequestParam String address,
                              @RequestParam(name = "phone_number") String phoneNumber
     ) {
-        model.addAttribute("principal", principal);
         User user = userService.findByUsername(principal.getName());
         Order order = new Order();
         order.setUser(user);
@@ -54,6 +47,5 @@ public class OrderController {
         order.setPrice(cart.getPrice());
         orderService.createorSaveOrder(order);
         cart.newCart();
-        return "redirect:/orders";
     }
 }

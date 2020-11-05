@@ -2,8 +2,9 @@ package com.geekbrains.spring.market.geekmarket.utils;
 
 import com.geekbrains.spring.market.geekmarket.entities.OrderItem;
 import com.geekbrains.spring.market.geekmarket.entities.Product;
+import com.geekbrains.spring.market.geekmarket.exceptions.ResourceNotFoundException;
+import com.geekbrains.spring.market.geekmarket.services.ProductService;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 import org.springframework.context.annotation.Scope;
 import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.stereotype.Component;
@@ -16,9 +17,9 @@ import java.util.List;
 
 @Component
 @Scope(value = WebApplicationContext.SCOPE_SESSION, proxyMode = ScopedProxyMode.TARGET_CLASS)
-@NoArgsConstructor
 @Data
 public class Cart {
+    private final ProductService productService;
     private List<OrderItem> items;
     private double price;
 
@@ -27,19 +28,7 @@ public class Cart {
         items = new ArrayList<>();
     }
 
-    public void addOrIncrement(Product p) {
-        for (OrderItem o : items) {
-            if (o.getProduct().getId().equals(p.getId())) {
-                o.incrementQuantity();
-                recalculate();
-                return;
-            }
-        }
-        items.add(new OrderItem(p));
-        recalculate();
-    }
-
-    public void incrementOnly(Long productId) {
+    public void addOrIncrement(Long productId) {
         for (OrderItem o : items) {
             if (o.getProduct().getId().equals(productId)) {
                 o.incrementQuantity();
@@ -47,6 +36,9 @@ public class Cart {
                 return;
             }
         }
+        Product p = productService.findById(productId).orElseThrow(() -> new ResourceNotFoundException("Unable to find product with id: " + productId + " (add to cart)"));
+        items.add(new OrderItem(p));
+        recalculate();
     }
 
     public void decrementOrRemove(Long productId) {

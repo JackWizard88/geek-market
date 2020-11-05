@@ -1,41 +1,34 @@
 package com.geekbrains.spring.market.geekmarket.configs;
 
 
-import com.geekbrains.spring.market.geekmarket.services.UserService;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
-import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
-@EnableWebSecurity //(debug = true)
+@EnableWebSecurity
+@RequiredArgsConstructor
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
-    private UserService userService;
-
-    @Autowired
-    public void setUserDetailsService(UserService userService) {
-        this.userService = userService;
-    }
+    private final JwtRequestFilter jwtRequestFilter;
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
-                .antMatchers("/orders/**").authenticated()
-                .antMatchers("/cart/**").authenticated()
-                .antMatchers("/products/edit/**").hasAnyAuthority("ROLE_ADMIN")
+                .antMatchers("/api/v1/cart").authenticated()
+                .antMatchers("/api/v1/orders").authenticated()
+                .antMatchers("/api/v1/cart").authenticated()
+                .antMatchers("/api/v1/user/register").permitAll()
+                .antMatchers("/api/v1/auth").permitAll()
                 .anyRequest().permitAll()
                 .and()
-                .formLogin()
-                    .loginPage("/login")
-                    .loginProcessingUrl("/login")
-                    .defaultSuccessUrl("/products", true)
-                .and()
-                .logout()
-                    .logoutUrl("/perform_logout")
-                    .logoutSuccessUrl("/products");
-
+                .csrf().disable()
+                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+        http.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
     }
 
     @Bean
@@ -43,11 +36,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         return new BCryptPasswordEncoder();
     }
 
+    @Override
     @Bean
-    public DaoAuthenticationProvider daoAuthenticationProvider() {
-        DaoAuthenticationProvider authenticationProvider = new DaoAuthenticationProvider();
-        authenticationProvider.setPasswordEncoder(passwordEncoder());
-        authenticationProvider.setUserDetailsService(userService);
-        return authenticationProvider;
+    public AuthenticationManager authenticationManagerBean() throws Exception {
+        return super.authenticationManagerBean();
     }
 }

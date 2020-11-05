@@ -12,27 +12,22 @@ import org.springframework.web.bind.annotation.*;
 import java.util.ArrayList;
 import java.util.List;
 
-@Controller
-@RequestMapping("/user")
+@RestController
+@RequestMapping("api/v1/user")
 @AllArgsConstructor
 public class UserController {
     private UserService userService;
     private RoleService roleService;
     private BCryptPasswordEncoder passwordEncoder;
 
-    @GetMapping("/register")
-    public String showCartPage() {
-        return "register";
-    }
 
     @PostMapping("/register")
-    public String registerNewUser(@RequestParam String login,
+    public void registerNewUser(@RequestParam String login,
                                   @RequestParam String pass,
                                   @RequestParam String email) {
         List<Role> roleList = new ArrayList<>();
         roleList.add(roleService.findByRoleName("ROLE_USER"));
         User u = new User(login, passwordEncoder.encode(pass), email, roleList);
         userService.saveNewUser(u);
-        return "redirect:/login";
     }
 }
