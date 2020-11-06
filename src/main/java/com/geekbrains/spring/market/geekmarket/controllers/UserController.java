@@ -46,7 +46,7 @@ public class UserController {
     public ResponseEntity<?> saveDetails(@RequestParam String firstName,
                                 @RequestParam String lastName,
                                 @RequestParam String phoneNumber,
-                                @RequestParam String date,
+                                @RequestParam String birthDate,
                                 @RequestParam String city,
                                 @RequestParam boolean sex,
                                 @RequestParam String password,
@@ -58,7 +58,7 @@ public class UserController {
             ud.setLastName(lastName);
             ud.setPhoneNumber(phoneNumber);
             ud.setCity(city);
-            ud.setDate(date);
+            ud.setBirthDate(birthDate);
             ud.setSex(sex);
             userService.saveUser(u);
             return ResponseEntity.ok(HttpStatus.OK);

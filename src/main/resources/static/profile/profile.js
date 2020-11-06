@@ -8,6 +8,7 @@ angular.module('app').controller('profileController', function ($scope, $http) {
         })
             .then(function (response) {
                 $scope.profile = response.data;
+                console.log(response.data);
                 $scope.checkGender();
             });
     };
@@ -26,7 +27,7 @@ angular.module('app').controller('profileController', function ($scope, $http) {
                firstName: $scope.profile ? $scope.profile.firstName : null,
                lastName: $scope.profile ? $scope.profile.lastName : null,
                phoneNumber: $scope.profile ? $scope.profile.phoneNumber : null,
-               date: $scope.profile ? $scope.profile.date : null,
+               birthDate: $scope.profile ? $scope.profile.birthDate : null,
                city: $scope.profile ? $scope.profile.city : null,
                sex: $scope.profile ? $scope.profile.sex : null,
                password: $scope.profile ? $scope.profile.pass : null
@@ -34,10 +35,11 @@ angular.module('app').controller('profileController', function ($scope, $http) {
         })
         .then(function (response) {
             if (response.data === 'FORBIDDEN') {
-                window.alert("Wrong password");
+                window.alert("Неверный пароль");
                 return;
             }
             $scope.profileRequest();
+            window.alert("Данные успешно обновленны");
         });
     }
 

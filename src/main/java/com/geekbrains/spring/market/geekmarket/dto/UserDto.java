@@ -26,7 +26,7 @@ public class UserDto {
         this.firstName = user.getUserDetails().getFirstName();
         this.lastName = user.getUserDetails().getLastName();
         this.phoneNumber = user.getUserDetails().getPhoneNumber();
-        this.birthDate = user.getUserDetails().getDate();
+        this.birthDate = user.getUserDetails().getBirthDate();
         this.sex = user.getUserDetails().isSex();
         this.city = user.getUserDetails().getCity();
     }
