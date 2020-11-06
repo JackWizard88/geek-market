@@ -1,8 +1,20 @@
+create table user_details (
+    id              bigint primary key AUTO_INCREMENT,
+    firstname       varchar(30) not null default '',
+    lastname        varchar(30) not null default '',
+    phone_number     varchar(30) default '',
+    birth_date      varchar(30)  default '',
+    sex             boolean default true,
+    city            varchar(30) default ''
+);
+
 create table users (
-  id                    bigint primary key AUTO_INCREMENT,
-  username              varchar(30) not null,
-  password              varchar(80) not null,
-  email                 varchar(50) unique
+  id                            bigint primary key AUTO_INCREMENT,
+  username                      varchar(30) not null,
+  password                      varchar(80) not null,
+  email                         varchar(50) unique,
+  user_details_id               bigint,
+  foreign key (user_details_id) references user_details (id)
 );
 
 create table roles (
@@ -20,12 +32,17 @@ CREATE TABLE users_roles (
 
 insert into roles (name)
 values
-('ROLE_USER'), ('ROLE_ADMIN');
+('ROLE_USER'), ('ROLE_ADMIN'), ('ROLE_MANAGER');
 
-insert into users (username, password, email)
+insert into user_details (id, firstname, lastname, phone_number, birth_date, city)
 values
-('user', '$2a$04$Fx/SX9.BAvtPlMyIIqqFx.hLY2Xp8nnhpzvEEVINvVpwIPbA3v/.i', 'user@gmail.com'),
-('user1', '$2a$04$Fx/SX9.BAvtPlMyIIqqFx.hLY2Xp8nnhpzvEEVINvVpwIPbA3v/.i', 'user1@gmail.com');
+(1, 'Admin', 'Adminov', '555-55-55', '01-11-1988', 'Moscow'),
+(2, 'User', 'NeAdminov', '222-22-22', '21-11-1967', 'Moscow');
+
+insert into users (username, password, email, user_details_id)
+values
+('admin', '$2a$04$Fx/SX9.BAvtPlMyIIqqFx.hLY2Xp8nnhpzvEEVINvVpwIPbA3v/.i', 'admin@gmail.com', 1),
+('user', '$2a$04$Fx/SX9.BAvtPlMyIIqqFx.hLY2Xp8nnhpzvEEVINvVpwIPbA3v/.i', 'user@gmail.com', 2);
 
 insert into users_roles (user_id, role_id) values (1, 1), (1, 2), (2, 1);
 

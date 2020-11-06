@@ -11,12 +11,12 @@ angular.module('app').controller('authController', function ($scope, $http, $loc
                     $scope.user.username = null;
                     $scope.user.password = null;
 
+                    window.location.href = '#!/store';
                     console.log($localStorage.currentUser);
                 }
             }, function errorCallback(response) {
                 window.alert(response.data.message);
                 $scope.clearUser();
-                document.location.href = '#!/products';
             });
     };
 
