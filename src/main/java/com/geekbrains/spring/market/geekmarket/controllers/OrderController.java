@@ -9,6 +9,7 @@ import com.geekbrains.spring.market.geekmarket.services.OrderService;
 import com.geekbrains.spring.market.geekmarket.services.UserService;
 import com.geekbrains.spring.market.geekmarket.utils.Cart;
 import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -19,11 +20,11 @@ import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/v1/orders")
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class OrderController {
-    private UserService userService;
-    private OrderService orderService;
-    private Cart cart;
+    private final UserService userService;
+    private final OrderService orderService;
+    private final Cart cart;
 
     @GetMapping
     public List<OrderDto> getOrderListForUser(Principal principal) {

@@ -1,0 +1,54 @@
+<div>
+    <h3>Профиль пользователя</h3>
+    <form method="post" ng-submit="saveDetails()">
+        <div style="width: 50%">
+            <div class="form-group">
+                <label for="firstname">Имя</label>
+                <input type="text" class="form-control" id="firstname" value="profile.firstName" ng-model="profile.firstName" required>
+            </div>
+            <div class="form-group">
+                <label for="lastname">Фамилия</label>
+                <input type="text" class="form-control" id="lastname"  value="profile.lastName" ng-model="profile.lastName" required>
+            </div>
+            <div class="form-group">
+                <label for="phoneNumber">Телефон</label>
+                <input type="text" class="form-control" id="phoneNumber"  value="profile.phoneNumber" ng-model="profile.phoneNumber" required>
+            </div>
+            <div class="form-group">
+                <label for="date">Дата Рождения</label>
+                <input type="text" class="form-control" id="date"  value="profile.birthDate" ng-model="profile.birthDate" required>
+            </div>
+            <div class="form-group">
+                <label for="city">Город</label>
+                <input type="text" class="form-control" id="city"  value="profile.city" ng-model="profile.city" required>
+            </div>
+            <div class="form-group" required>
+                <label for="r1">Пол</label>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="exampleRadios" id="r1" value="option1">
+                    <label class="form-check-label" for="r1">
+                        Мужской
+                    </label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="exampleRadios" id="r2" value="option2">
+                    <label class="form-check-label" for="r2">
+                        Женский
+                    </label>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="email">e-mail</label>
+                <input type="email" class="form-control" id="email" value="profile.email" ng-model="profile.email" readonly>
+            </div>
+
+            <div class="form-group">
+                <label for="pass">Пароль</label>
+                <input type="password" class="form-control" id="pass"  value="profile.pass" ng-model="profile.pass" required>
+            </div>
+            <button type="submit" class="btn btn-primary">Сохранить изменения</button>
+        </div>
+
+    </form>
+</div>

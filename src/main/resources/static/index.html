@@ -18,14 +18,16 @@
 
 <body>
 
-<div class="container" style="padding-bottom: 20px; background-color: gray;">
+<div class="container" ng-controller="indexController" style="padding-bottom: 20px; background-color: gray;">
     <h1>Магазин</h1>
     <a class="btn btn-outline-warning" href="#!/">Главная</a>
-    <a class="btn btn-outline-warning" href="#!/auth">Войти</a>
     <a class="btn btn-outline-warning" href="#!/store">Магазин</a>
-    <a class="btn btn-outline-warning" href="#!/admin">Админка</a>
-    <a class="btn btn-outline-warning" href="#!/cart">Корзина</a>
-    <a class="btn btn-outline-warning" href="#!/orders">Заказы</a>
+    <a class="btn btn-outline-warning" ng-show="isUserLoggedIn()" href="#!/admin">Админка</a>
+    <a class="btn btn-outline-warning" ng-show="isUserLoggedIn()" href="#!/cart">Корзина</a>
+    <a class="btn btn-outline-warning" ng-show="isUserLoggedIn()" href="#!/orders">Заказы</a>
+    <a class="btn btn-outline-warning" ng-show="isUserLoggedIn()" href="#!/profile">Профиль</a>
+    <a class="btn btn-outline-warning text-right" ng-show="!isUserLoggedIn()" href="#!/auth">Войти</a>
+    <a class="btn btn-outline-warning text-right" ng-controller="authController" ng-show="isUserLoggedIn()" ng-click="tryToLogout()" href="">Выйти</a>
 </div>
 
 <div class="container">
@@ -40,6 +42,7 @@
     <script src="orders/orders.js"></script>
     <script src="orderConfirmation/orderConfirmation.js"></script>
     <script src="registration/registration.js"></script>
+    <script src="profile/profile.js"></script>
 </div>
 </body>
 </html>

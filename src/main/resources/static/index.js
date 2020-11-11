@@ -38,6 +38,10 @@
             .when('/registration', {
                 templateUrl: 'registration/registration.html',
                 controller: 'registrationController'
+            })
+            .when('/profile', {
+                            templateUrl: 'profile/profile.html',
+                            controller: 'profileController'
             });
 
         $httpProvider.interceptors.push(function ($q, $location) {
@@ -70,3 +74,15 @@
         }
     }
 })();
+
+angular.module('app').controller('indexController', function ($scope, $http, $localStorage) {
+    const contextPath = 'http://localhost:8189/market';
+
+    $scope.isUserLoggedIn = function () {
+        if ($localStorage.currentUser) {
+            return true;
+        } else {
+            return false;
+        }
+    };
+});
