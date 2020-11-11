@@ -42,24 +42,13 @@ public class UserController {
         return new UserDto(userService.findByUsername(principal.getName()));
     }
 
-    @PostMapping("/save")
-    public ResponseEntity<?> saveDetails(@RequestParam String firstName,
-                                @RequestParam String lastName,
-                                @RequestParam String phoneNumber,
-                                @RequestParam String birthDate,
-                                @RequestParam String city,
-                                @RequestParam boolean sex,
+    @PutMapping("/save")
+    public ResponseEntity<?> saveDetails(@RequestBody UserDetails userDetails,
                                 @RequestParam String password,
                                 Principal principal) {
         if (passwordEncoder.matches(password, userService.findByUsername(principal.getName()).getPassword())) {
             User u = userService.findByUsername(principal.getName());
-            UserDetails ud = u.getUserDetails();
-            ud.setFirstName(firstName);
-            ud.setLastName(lastName);
-            ud.setPhoneNumber(phoneNumber);
-            ud.setCity(city);
-            ud.setBirthDate(birthDate);
-            ud.setSex(sex);
+            u.setUserDetails(userDetails);
             userService.saveUser(u);
             return ResponseEntity.ok(HttpStatus.OK);
         } else return ResponseEntity.ok(HttpStatus.FORBIDDEN);

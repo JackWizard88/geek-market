@@ -22,14 +22,9 @@ angular.module('app').controller('profileController', function ($scope, $http) {
     $scope.saveDetails = function () {
         $http({
             url: contextPath + '/api/v1/user/save',
-            method: 'POST',
+            method: 'PUT',
+            data: $scope.profile,
             params: {
-               firstName: $scope.profile ? $scope.profile.firstName : null,
-               lastName: $scope.profile ? $scope.profile.lastName : null,
-               phoneNumber: $scope.profile ? $scope.profile.phoneNumber : null,
-               birthDate: $scope.profile ? $scope.profile.birthDate : null,
-               city: $scope.profile ? $scope.profile.city : null,
-               sex: $scope.profile ? $scope.profile.sex : null,
                password: $scope.profile ? $scope.profile.pass : null
             }
         })
