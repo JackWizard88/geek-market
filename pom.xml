@@ -110,6 +110,7 @@
 				<configuration>
 					<sources>
 						<source>${project.basedir}/src/main/resources/schemas/products.xsd</source>
+						<source>${project.basedir}/src/main/resources/schemas/orders.xsd</source>
 					</sources>
 				</configuration>
 			</plugin>

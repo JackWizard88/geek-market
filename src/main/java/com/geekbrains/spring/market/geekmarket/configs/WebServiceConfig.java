@@ -24,7 +24,7 @@ public class WebServiceConfig extends WsConfigurerAdapter {
     }
 
     @Bean(name = "products")
-    public DefaultWsdl11Definition defaultWsdl11Definition(XsdSchema productsSchema) {
+    public DefaultWsdl11Definition productWsdl11Definition(XsdSchema productsSchema) {
         DefaultWsdl11Definition wsdl11Definition = new DefaultWsdl11Definition();
         wsdl11Definition.setPortTypeName("ProductsPort");
         wsdl11Definition.setLocationUri("/ws");
@@ -33,8 +33,23 @@ public class WebServiceConfig extends WsConfigurerAdapter {
         return wsdl11Definition;
     }
 
+    @Bean(name = "orders")
+    public DefaultWsdl11Definition orderWsdl11Definition(XsdSchema ordersSchema) {
+        DefaultWsdl11Definition wsdl11Definition = new DefaultWsdl11Definition();
+        wsdl11Definition.setPortTypeName("OrdersPort");
+        wsdl11Definition.setLocationUri("/ws");
+        wsdl11Definition.setTargetNamespace("http://www.geekbrains.com/market/ws/orders");
+        wsdl11Definition.setSchema(ordersSchema);
+        return wsdl11Definition;
+    }
+
     @Bean
     public XsdSchema productsSchema() {
         return new SimpleXsdSchema(new ClassPathResource("schemas/products.xsd"));
+    }
+
+    @Bean
+    public XsdSchema ordersSchema() {
+        return new SimpleXsdSchema(new ClassPathResource("schemas/orders.xsd"));
     }
 }
