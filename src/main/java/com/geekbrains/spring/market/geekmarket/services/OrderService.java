@@ -4,16 +4,16 @@ import com.geekbrains.spring.market.geekmarket.entities.Order;
 import com.geekbrains.spring.market.geekmarket.entities.OrderItem;
 import com.geekbrains.spring.market.geekmarket.entities.User;
 import com.geekbrains.spring.market.geekmarket.repositories.OrderRepository;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
 
 @Service
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class OrderService {
-    private OrderRepository orderRepository;
+    private final OrderRepository orderRepository;
 
     public List<Order> findAll() {
         return orderRepository.findAll();

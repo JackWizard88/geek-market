@@ -1,0 +1,30 @@
+<xs:schema
+        xmlns:xs="http://www.w3.org/2001/XMLSchema"
+        xmlns:tns="http://www.geekbrains.com/market/ws/products"
+        targetNamespace="http://www.geekbrains.com/market/ws/products" elementFormDefault="qualified">
+
+    <xs:element name="getProductSOAPRequest">
+        <xs:complexType>
+            <xs:sequence>
+
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="getProductSOAPResponse">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="product" type="tns:productSOAP" maxOccurs="unbounded"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:complexType name="productSOAP">
+        <xs:sequence>
+            <xs:element name="title" type="xs:string"/>
+            <xs:element name="price" type="xs:double"/>
+            <xs:element name="category" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+
+</xs:schema>
