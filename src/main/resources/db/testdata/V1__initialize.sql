@@ -39,10 +39,10 @@ values
 (1, 'Admin', 'Adminov', '555-55-55', '01-11-1988', 'Moscow'),
 (2, 'User', 'NeAdminov', '222-22-22', '21-11-1967', 'Moscow');
 
-insert into users (username, password, email, user_details_id)
+insert into users (id, username, password, email, user_details_id)
 values
-('admin', '$2a$04$Fx/SX9.BAvtPlMyIIqqFx.hLY2Xp8nnhpzvEEVINvVpwIPbA3v/.i', 'admin@gmail.com', 1),
-('user', '$2a$04$Fx/SX9.BAvtPlMyIIqqFx.hLY2Xp8nnhpzvEEVINvVpwIPbA3v/.i', 'user@gmail.com', 2);
+(1, 'admin', '$2a$04$Fx/SX9.BAvtPlMyIIqqFx.hLY2Xp8nnhpzvEEVINvVpwIPbA3v/.i', 'admin@gmail.com', 1),
+(2, 'user', '$2a$04$Fx/SX9.BAvtPlMyIIqqFx.hLY2Xp8nnhpzvEEVINvVpwIPbA3v/.i', 'user@gmail.com', 2);
 
 insert into users_roles (user_id, role_id) values (1, 1), (1, 2), (2, 1);
 
@@ -111,8 +111,8 @@ values
 ('Бананы', 130.49, 4),
 ('Яблоки', 130.49, 4);
 
-insert into orders (user_id, address, phone_number)
+insert into orders (id, user_id, address, phone_number, price)
 values
-(2, 'asdfasdfas', '5542-23423-234'),
-(2, 'asdfas', '524562-245623-234'),
-(2, 'sghgjku7', '43542-245623-234');
+(1, 2, 'asdfasdfas', '5542-23423-234', 100.00),
+(2, 1, 'asdfas', '524562-243624623-234', 22.00),
+(3, 2, 'sghgjku7', '43542-245623-234', 55.99);
