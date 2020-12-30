@@ -14,6 +14,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import javax.management.relation.RoleNotFoundException;
 import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
@@ -32,7 +33,11 @@ public class UserController {
                                   @RequestParam String pass,
                                   @RequestParam String email) {
         List<Role> roleList = new ArrayList<>();
-        roleList.add(roleService.findByRoleName("ROLE_USER"));
+        try {
+            roleList.add(roleService.findByRoleName("ROLE_USER"));
+        } catch (RoleNotFoundException e) {
+            e.printStackTrace();
+        }
         User u = new User(login, passwordEncoder.encode(pass), email, roleList);
         userService.saveUser(u);
     }

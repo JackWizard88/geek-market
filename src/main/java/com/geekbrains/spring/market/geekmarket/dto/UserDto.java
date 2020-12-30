@@ -13,6 +13,7 @@ import java.util.stream.Collectors;
 @Data
 @NoArgsConstructor
 public class UserDto {
+    private String username;
     private String email;
     private String firstName;
     private String lastName;
@@ -22,6 +23,7 @@ public class UserDto {
     private String city;
 
     public UserDto(User user) {
+        this.username = user.getUsername();
         this.email = user.getEmail();
         this.firstName = user.getUserDetails().getFirstName();
         this.lastName = user.getUserDetails().getLastName();

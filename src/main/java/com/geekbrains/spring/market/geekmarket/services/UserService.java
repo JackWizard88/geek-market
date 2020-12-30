@@ -5,7 +5,6 @@ import com.geekbrains.spring.market.geekmarket.entities.Role;
 import com.geekbrains.spring.market.geekmarket.entities.User;
 import com.geekbrains.spring.market.geekmarket.repositories.UserRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -23,7 +22,7 @@ public class UserService implements UserDetailsService {
     private final UserRepository userRepository;
 
     public User findByUsername(String username) {
-        return userRepository.findByUsername(username);
+        return userRepository.findByUsername(username).get();
     }
 
     public void saveUser(User user) {
