@@ -2,6 +2,7 @@ package com.geekbrains.spring.market.geekmarket.services;
 
 import com.geekbrains.spring.market.geekmarket.entities.Product;
 import com.geekbrains.spring.market.geekmarket.repositories.ProductRepository;
+import com.geekbrains.spring.market.geekmarket.utils.PageImpl;
 import com.geekbrains.spring.market.geekmarket.ws.products.ProductSOAP;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -34,8 +35,9 @@ public class ProductService {
         return productRepository.save(product);
     }
 
-    public Page<Product> findAll(Specification<Product> spec, int page, int size) {
-        return productRepository.findAll(spec, PageRequest.of(page, size));
+    public PageImpl<Product> findAll(Specification<Product> spec, int page, int size) {
+        Page<Product> products = productRepository.findAll(spec, PageRequest.of(page, size));
+        return new PageImpl<>(products);
     }
 
     public List<ProductSOAP> findAllSOAP() {

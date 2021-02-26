@@ -6,14 +6,17 @@ import com.geekbrains.spring.market.geekmarket.entities.User;
 import com.geekbrains.spring.market.geekmarket.entities.UserDetails;
 import com.geekbrains.spring.market.geekmarket.services.RoleService;
 import com.geekbrains.spring.market.geekmarket.services.UserService;
+import com.geekbrains.spring.market.geekmarket.utils.Check;
+import com.geekbrains.spring.market.geekmarket.utils.CheckBrute;
+import com.geekbrains.spring.market.geekmarket.utils.CheckPass;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import javax.management.relation.RoleNotFoundException;
 import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
@@ -32,7 +35,11 @@ public class UserController {
                                   @RequestParam String pass,
                                   @RequestParam String email) {
         List<Role> roleList = new ArrayList<>();
-        roleList.add(roleService.findByRoleName("ROLE_USER"));
+        try {
+            roleList.add(roleService.findByRoleName("ROLE_USER"));
+        } catch (RoleNotFoundException e) {
+            e.printStackTrace();
+        }
         User u = new User(login, passwordEncoder.encode(pass), email, roleList);
         userService.saveUser(u);
     }
@@ -46,12 +53,18 @@ public class UserController {
     public ResponseEntity<?> saveDetails(@RequestBody UserDetails userDetails,
                                 @RequestParam String password,
                                 Principal principal) {
-        if (passwordEncoder.matches(password, userService.findByUsername(principal.getName()).getPassword())) {
+        Check firstCheck = new CheckBrute(3);
+        Check secondCheck = new CheckPass(userService, passwordEncoder);
+        firstCheck.link(secondCheck);
+
+        if (firstCheck.check(principal, password)) {
             User u = userService.findByUsername(principal.getName());
             u.setUserDetails(userDetails);
             userService.saveUser(u);
             return ResponseEntity.ok(HttpStatus.OK);
-        } else return ResponseEntity.ok(HttpStatus.FORBIDDEN);
+        }
+
+        return ResponseEntity.ok(HttpStatus.FORBIDDEN);
     }
 
 }

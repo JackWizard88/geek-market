@@ -26,7 +26,7 @@ public class OrderController {
     private final OrderService orderService;
     private final Cart cart;
 
-    @GetMapping
+    @GetMapping(produces = "application/json")
     public List<OrderDto> getOrderListForUser(Principal principal) {
         User user = userService.findByUsername(principal.getName());
         return orderService.findByUser(user).stream().map(OrderDto::new).collect(Collectors.toList());
