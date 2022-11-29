@@ -7,7 +7,7 @@ spring:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://localhost/geekmarket?serverTimezone=Europe/Moscow
     username: root
-    password: BzBpmbrt
+    password: 
   jpa:
     show-sql: true
     properties:
